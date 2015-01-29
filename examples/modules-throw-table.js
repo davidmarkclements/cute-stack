@@ -1,4 +1,4 @@
-require('../')('pretty', 50)
+require('../')('table', 50)
 
 var mkdirp = require('mkdirp');
 var fs = require('fs');

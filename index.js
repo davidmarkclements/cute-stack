@@ -28,6 +28,10 @@ cute.ui['pretty-json'].print = cute.ui.json.print = function (data) {
 
 
 function cute(type, stackSize) {
+  if (typeof type === 'number') {
+    stackSize = type;
+    type = null;
+  }
   if (typeof stackSize === 'number') {
     Error.stackTraceLimit = stackSize
   }
