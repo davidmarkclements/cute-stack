@@ -1,0 +1,2 @@
+require('../')('json')
+throw x;

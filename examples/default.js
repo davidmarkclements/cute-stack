@@ -1,0 +1,2 @@
+require('../')()
+throw x;

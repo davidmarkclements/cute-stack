@@ -1,0 +1,2 @@
+require('../').noStack();
+throw x;

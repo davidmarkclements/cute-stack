@@ -1,0 +1,2 @@
+require('../')('pretty')
+throw x;

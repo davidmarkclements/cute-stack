@@ -1,0 +1,2 @@
+require('../')('table')
+throw x;

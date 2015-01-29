@@ -1,0 +1,16 @@
+{
+  "name": "cute-stack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "author": "David Mark Clements",
+  "license": "MIT",
+  "dependencies": {
+    "cli-table": "^0.3.1",
+    "colors": "^1.0.3"
+  },
+  "devDependencies": {
+    "mkdirp": "^0.5.0",
+  }
+}
