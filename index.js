@@ -40,7 +40,6 @@ function cute(type, stackSize) {
   if (type.init) { type.init(); }
 
   Error.prepareStackTrace = function (error, stack) {
-    for (var k in error) { console.log(k); }
     return (error+'').bgRed.white 
       + '\n\n' + (type.print||join)(stack.map(function(frame){
         var fn = frame.getFunction();
@@ -51,10 +50,10 @@ function cute(type, stackSize) {
             .replace(process.cwd(), '.')
             .replace(/\/node_modules\//g, '♦'),
           line: frame.getLineNumber(),
-          args: fn.arguments,
+          args: fn ? fn.arguments : '',
           name: frame.getFunctionName(),
           meth: frame.getMethodName(),
-          sig: ((fn+'').split('{')[0].trim() + ' { [body] }'),
+          sig: fn ? ((fn+'').split('{')[0].trim() + ' { [body] }') : '',
           id: function () { 
             return this.name || this.meth || this.sig;
           }
