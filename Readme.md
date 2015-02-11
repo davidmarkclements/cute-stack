@@ -152,6 +152,23 @@ require('cute-stack')(myPlugin);
 See a plugin example [bad-line](https://github.com/bahmutov/bad-line) that prints
 actual source line where the crash happens for each local file in the stack.
 
+## Filtering stack frames
+
+You can limit printed stack frames using `plugin.filter` method. Just return truthy value
+for frames to be included in the stack. For example to skip printing `module.js` calls
+when printing using default formatter
+
+```js
+var cute = require('cute-stack');
+cute.ui.default.filter = function isNotModuleJs(frame) {
+  return !/^module\.js$/.test(frame.file);
+}
+cute();
+throw x;
+```
+
+![no modules](images/filter.png)
+
 ## Kudos
 
 Sponsored by nearForm
