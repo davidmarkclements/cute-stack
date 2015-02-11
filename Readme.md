@@ -130,6 +130,28 @@ If it has a `print` method attached this will be
 used to display all frames once they have been 
 processed. 
 
+## Plugin function
+
+Instead of defining the plugin and passing its name, you can pass the plugin function
+directly.
+
+```js
+function myPlugin(frame) {
+  return 'result of processing a stack frame'
+}
+myPlugin.init = function () { 
+  //do some initialisation
+}
+myPlugin.print = function (stack) {
+  return '\n=====\n' + stack.join('\n') + '\n=====\n'
+}
+
+require('cute-stack')(myPlugin);
+```
+
+See a plugin example [bad-line](https://github.com/bahmutov/bad-line) that prints
+actual source line where the crash happens for each local file in the stack.
+
 ## Kudos
 
 Sponsored by nearForm
