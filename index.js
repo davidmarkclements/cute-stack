@@ -40,26 +40,32 @@ function cute(type, stackSize) {
   }
   if (type.init) { type.init(); }
 
+  var filter = type.filter ? type.filter : function (x) { return x; };
+
+  function details(frame) {
+    var fn = frame.getFunction();
+
+    return {
+      fn: fn,
+      file: frame.getFileName()
+        .replace(process.cwd(), '.')
+        .replace(/\/node_modules\//g, '♦'),
+      line: frame.getLineNumber(),
+      args: fn ? fn.arguments : '',
+      name: frame.getFunctionName(),
+      meth: frame.getMethodName(),
+      sig: fn ? ((fn+'').split('{')[0].trim() + ' { [body] }') : '',
+      id: function () {
+        return this.name || this.meth || this.sig;
+      }
+    }
+  }
+
   Error.prepareStackTrace = function (error, stack) {
     var text = (error+'').bgRed.white
-      + '\n\n' + (type.print||join)(stack.map(function(frame){
-        var fn = frame.getFunction();
-
-        return {
-          fn: fn,
-          file: frame.getFileName()
-            .replace(process.cwd(), '.')
-            .replace(/\/node_modules\//g, '♦'),
-          line: frame.getLineNumber(),
-          args: fn ? fn.arguments : '',
-          name: frame.getFunctionName(),
-          meth: frame.getMethodName(),
-          sig: fn ? ((fn+'').split('{')[0].trim() + ' { [body] }') : '',
-          id: function () {
-            return this.name || this.meth || this.sig;
-          }
-        }
-      }).map(type));
+      + '\n\n' + (type.print||join)(
+        stack.map(details).filter(filter).map(type)
+      );
     return text;
   }
   return cute;
