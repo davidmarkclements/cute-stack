@@ -1,6 +1,6 @@
 {
   "name": "cute-stack",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {},
@@ -15,6 +15,7 @@
     "url": "git://github.com/davidmarkclements/cute-stack.git"
   },
   "devDependencies": {
+    "bad-line": "0.1.0",
     "mkdirp": "^0.5.0"
   }
 }

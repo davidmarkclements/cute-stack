@@ -35,12 +35,13 @@ function cute(type, stackSize) {
   if (typeof stackSize === 'number') {
     Error.stackTraceLimit = stackSize
   }
-  type = cute.ui[type] || cute.ui.default;
-
+  if (typeof type !== 'function') {
+    type = cute.ui[type] || cute.ui.default;
+  }
   if (type.init) { type.init(); }
 
   Error.prepareStackTrace = function (error, stack) {
-    return (error+'').bgRed.white 
+    var text = (error+'').bgRed.white
       + '\n\n' + (type.print||join)(stack.map(function(frame){
         var fn = frame.getFunction();
 
@@ -54,28 +55,29 @@ function cute(type, stackSize) {
           name: frame.getFunctionName(),
           meth: frame.getMethodName(),
           sig: fn ? ((fn+'').split('{')[0].trim() + ' { [body] }') : '',
-          id: function () { 
+          id: function () {
             return this.name || this.meth || this.sig;
           }
         }
-      }).map(type))
+      }).map(type));
+    return text;
   }
   return cute;
 }
 
 function pretty(frame) {
-  return [ 
-    frame.file.cyan, 
+  return [
+    frame.file.cyan,
     (' ' + frame.line + ' ').bgYellow.black,
     (' ' + (frame.id()) + ' ').gray
     ].join(' ') + '\n';
 }
 
-function join(a) { 
-  return Array.prototype.join.call(a, ''); 
+function join(a) {
+  return Array.prototype.join.call(a, '');
 }
 
-table.init = function () { 
+table.init = function () {
 
   table._ = new Table({
     head: ['file', 'line', 'name/sig'],
@@ -85,7 +87,7 @@ table.init = function () {
 
 }
 
-table.print = function () { 
+table.print = function () {
   var t = table._ + '';
   table._ = null;
   return t;
