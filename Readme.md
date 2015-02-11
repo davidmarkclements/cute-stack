@@ -171,4 +171,10 @@ throw x;
 
 ## Kudos
 
+### Collaborators
+
+* Gleb Bahmutov (@bahmutov)
+
+### Sponsorship
+
 Sponsored by nearForm
