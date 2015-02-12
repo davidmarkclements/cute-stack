@@ -1,6 +1,7 @@
 var util = require('util');
 var colors = require('colors');
 var Table = require('cli-table');
+var treeify = require('treeify');
 
 module.exports = cute;
 cute.uncute = function () {
@@ -13,7 +14,8 @@ cute.ui = {
   default: pretty,
   pretty: pretty,
   table: table,
-  json: JSON.stringify.bind(JSON)
+  json: JSON.stringify.bind(JSON),
+  tree: tree
 }
 
 
@@ -106,3 +108,26 @@ function table(frame) {
     frame.file, frame.line, frame.column, frame.id()
   ])
 }
+
+function tree(frame) {
+  return {
+    file: frame.file,
+    line: frame.line,
+    column: frame.column,
+    id: frame.id()
+  };
+}
+tree.print = function treePrint(frames) {
+  if (!frames.length) {
+    return;
+  }
+
+  frames.reduce(function (prev, curr) {
+    if (prev !== curr) {
+      prev.caller = curr;
+    }
+    return curr;
+  }, frames[0]);
+
+  return treeify.asTree(frames[0], true);
+};
