@@ -51,6 +51,7 @@ function cute(type, stackSize) {
         .replace(process.cwd(), '.')
         .replace(/\/node_modules\//g, '♦'),
       line: frame.getLineNumber(),
+      column: frame.getColumnNumber(),
       args: fn ? fn.arguments : '',
       name: frame.getFunctionName(),
       meth: frame.getMethodName(),
@@ -61,6 +62,7 @@ function cute(type, stackSize) {
     }
   }
 
+  // https://code.google.com/p/v8-wiki/wiki/JavaScriptStackTraceApi
   Error.prepareStackTrace = function (error, stack) {
     var text = (error+'').bgRed.white
       + '\n\n' + (type.print||join)(
@@ -74,7 +76,7 @@ function cute(type, stackSize) {
 function pretty(frame) {
   return [
     frame.file.cyan,
-    (' ' + frame.line + ' ').bgYellow.black,
+    (' ' + frame.line + ',' + frame.column + ' ').bgYellow.black,
     (' ' + (frame.id()) + ' ').gray
     ].join(' ') + '\n';
 }
@@ -86,8 +88,8 @@ function join(a) {
 table.init = function () {
 
   table._ = new Table({
-    head: ['file', 'line', 'name/sig'],
-    colWidths: [50, 10, 50]
+    head: ['file', 'line', 'column', 'name/sig'],
+    colWidths: [50, 10, 10, 50]
   })
 
 
@@ -101,6 +103,6 @@ table.print = function () {
 
 function table(frame) {
   table._.push([
-    frame.file, frame.line, frame.id()
+    frame.file, frame.line, frame.column, frame.id()
   ])
 }
