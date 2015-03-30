@@ -1,6 +1,9 @@
 {
   "name": "cute-stack",
   "version": "1.2.2",
+  "bin": {
+    "cute": "./cmd.js"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {},
@@ -9,7 +12,8 @@
   "dependencies": {
     "cli-table": "^0.3.1",
     "colors": "^1.0.3",
-    "treeify": "1.0.1"
+    "treeify": "1.0.1",
+    "minimist": "^1.1.0"
   },
   "repository": {
     "type": "git",

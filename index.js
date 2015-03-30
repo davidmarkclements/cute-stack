@@ -46,6 +46,8 @@ function cute(type, stackSize) {
 
   function details(frame) {
     var fn = frame.getFunction();
+    var useStrict = Object.getOwnPropertyDescriptor(fn, 'arguments').get
+    useStrict = useStrict && useStrict.name === 'ThrowTypeError';
 
     return {
       fn: fn,
@@ -54,7 +56,7 @@ function cute(type, stackSize) {
         .replace(/\/node_modules\//g, '♦'),
       line: frame.getLineNumber(),
       column: frame.getColumnNumber(),
-      args: fn ? fn.arguments : '',
+      args: fn && !useStrict ? fn.arguments : '',
       name: frame.getFunctionName(),
       meth: frame.getMethodName(),
       sig: fn ? ((fn+'').split('{')[0].trim() + ' { [body] }') : '',
