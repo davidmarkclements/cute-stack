@@ -12,8 +12,10 @@
   "dependencies": {
     "cli-table": "^0.3.1",
     "colors": "^1.0.3",
+    "extend-object": "^1.0.0",
+    "minimist": "^1.1.0",
     "treeify": "1.0.1",
-    "minimist": "^1.1.0"
+    "v8-flags-object-proxy": "^1.0.0"
   },
   "repository": {
     "type": "git",

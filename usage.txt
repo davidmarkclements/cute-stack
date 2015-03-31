@@ -1,0 +1,12 @@
+cute [-hts] [--help] [--type] [--stacksize] [file]
+
+-h | --help        Display usage
+-t | --type        Set display type, default pretty see #Types
+-s | --stacksize   Set stack size, default 10
+
+# Types
+
+* pretty (default)
+* table
+* json
+* pretty-json
