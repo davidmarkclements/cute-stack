@@ -4,7 +4,10 @@
 
 
 ```sh
-npm install cute-stack --save
+
+npm install -g cute-stack # cli usage
+npm install cute-stack --save # programmatic usage
+
 ```
 
 
@@ -16,8 +19,19 @@ npm install cute-stack --save
 
 Require, then call, `cute-stack` in your entry point file
 
+## CLI
+
+New in version 1.3.x cute-stack has an executable, named `cute`.
+Simply use `cute` instead of `node` to get cute-stack traces:
+
+```sh
+cute myApp.js
+```
+
+## Programmatic
+
 ```javascript
-require('cute-stack')()
+require('cute-stack')();
 //...all your app code
 ```
 
