@@ -19,7 +19,6 @@ var pack = require('./package.json');
 
 var type = argv.type;
 var stackSize = argv.stacksize;
-
 strip('-t');
 strip('--type');
 strip('-s');
@@ -30,7 +29,7 @@ function strip(flag) {
    var n = 2;
    var i = process.argv.indexOf(flag);
    if (i < 0) return
-   if (process.argv[n+1][0] === '-') n = 1
+   if (process.argv[i + 1][0] === '-') n = 1
    process.argv.splice(i, n);
 }
 
@@ -45,7 +44,7 @@ function delegate() {
 }
 
 function prefixEval(letter) {
-  argv[letter] = 'require("' + __dirname + '/")('+type+','  + stackSize + ');\n' + argv[letter];
+  argv[letter] = 'require("' + __dirname + '/")("'+type+'",'  + stackSize + ');\n' + argv[letter];
   process.argv[process.argv.indexOf('-'+letter)+1] = argv[letter];
 }
 
@@ -64,7 +63,7 @@ function help() {
   delegate();
   setTimeout(function () {
     console.log('\n=============================\n')
-    fs.createReadStream('./usage.txt').pipe(process.stdout);  
+    fs.createReadStream(path.join(__dirname, 'usage.txt')).pipe(process.stdout);  
   }, 100);
 }
 
@@ -75,7 +74,8 @@ function unsupported(flag) {
 function load() {
   setFlagsFromString(process.argv.slice(2).join(' '));
   require('./')(type, stackSize, {emulated: true});
-  process.argv[1] = require.resolve('./' + path.relative(process.cwd(), process.argv[1]));
+
+  process.argv[1] = require.resolve(path.resolve(process.cwd(), process.argv[1]));
   
   Module.runMain();
 }
