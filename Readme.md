@@ -10,10 +10,7 @@ npm install cute-stack --save # programmatic usage
 
 ```
 
-
-![pretty](images/pretty.png)
-![table](images/table.png)
-![tree](images/tree.png)
+![demo](images/cute.gif)
 
 ## Usage
 
@@ -67,6 +64,11 @@ require('cute-stack')(type)
 * json
 * json-pretty
 * tree
+
+
+![pretty](images/pretty.png)
+![table](images/table.png)
+![tree](images/tree.png)
 
 
 ### stackSize
