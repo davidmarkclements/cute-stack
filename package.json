@@ -1,21 +1,21 @@
 {
   "name": "cute-stack",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "bin": {
     "cute": "./cmd.js"
   },
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "postinstall": "node -e '/* \u001b[33minstall setflags on 0.10 and 0.12\u001b[0m */ !+process.versions.node[0] && require(\"child_process\").spawn(\"npm\", [\"i\", \"setflags\"], {stdio: \"inherit\"})'"
+  },
   "author": "David Mark Clements",
   "license": "MIT",
   "dependencies": {
     "cli-table": "^0.3.1",
     "colors": "^1.0.3",
-    "extend-object": "^1.0.0",
     "minimist": "^1.1.0",
-    "treeify": "1.0.1",
-    "v8-flags-object-proxy": "^1.0.0"
+    "treeify": "1.0.1"
   },
   "repository": {
     "type": "git",

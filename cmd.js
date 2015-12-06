@@ -1,25 +1,38 @@
 #!/usr/bin/env node
 
 process.argv.splice(1, 2, process.argv[2]);
-var v8f = require('v8-flags-object-proxy')();
 var argv = require('minimist')(
-  process.argv
-  .slice(1)
-  .filter(Boolean)
+  process.argv.slice(1).filter(Boolean), {
+    alias: {
+      t: 'type',
+      s: ['stacksize', 'stackSize']
+    }
+  }
 );
-var extend = require('extend-object');
-
-extend(v8f, argv);
 
 var fs = require('fs');
 var path = require('path');
 var Module = require('module');
 var spawn = require('child_process').spawn;
-
+var setFlagsFromString = require('./set-flags');
 var pack = require('./package.json');
 
-var type = argv.type || argv.t;
-var stackSize = argv.stackSize || argv.stacksize || argv.s;
+var type = argv.type;
+var stackSize = argv.stacksize;
+
+strip('-t');
+strip('--type');
+strip('-s');
+strip('-stacksize');
+strip('-stackSize');
+
+function strip(flag) {
+   var n = 2;
+   var i = process.argv.indexOf(flag);
+   if (i < 0) return
+   if (process.argv[n+1][0] === '-') n = 1
+   process.argv.splice(i, n);
+}
 
 function delegate() {
   return spawn('node', process.argv
@@ -32,7 +45,7 @@ function delegate() {
 }
 
 function prefixEval(letter) {
-  argv[letter] = 'require("' + __dirname + '/")('+type+','+stackSize+');' + argv[letter];
+  argv[letter] = 'require("' + __dirname + '/")('+type+','  + stackSize + ');\n' + argv[letter];
   process.argv[process.argv.indexOf('-'+letter)+1] = argv[letter];
 }
 
@@ -46,6 +59,7 @@ function version () {
   process.stdout.write('\nNode: ')
   delegate();
 }
+
 function help() {
   delegate();
   setTimeout(function () {
@@ -59,8 +73,10 @@ function unsupported(flag) {
 }
 
 function load() {
-  require('./')(type, stackSize);
+  setFlagsFromString(process.argv.slice(2).join(' '));
+  require('./')(type, stackSize, {emulated: true});
   process.argv[1] = require.resolve('./' + path.relative(process.cwd(), process.argv[1]));
+  
   Module.runMain();
 }
 
