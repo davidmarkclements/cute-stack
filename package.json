@@ -7,7 +7,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "node -e '/* \u001b[33minstall setflags on 0.10 and 0.12\u001b[0m */ !+process.versions.node[0] && require(\"child_process\").spawn(\"npm\", [\"i\", \"setflags\"], {stdio: \"inherit\"})'"
+    "postinstall": "node ./postinstall.js"
   },
   "author": "David Mark Clements",
   "license": "MIT",
